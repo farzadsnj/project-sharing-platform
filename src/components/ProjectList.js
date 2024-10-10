@@ -7,7 +7,7 @@ function ProjectList() {
 
   useEffect(() => {
     // Fetch projects from the backend
-    axios.get('http://localhost:5000/projects')
+    axios.get('https://localhost:5000/projects')
       .then((response) => {
         setProjects(response.data);
       })

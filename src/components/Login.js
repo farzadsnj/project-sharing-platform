@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Changed from useHistory
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Updated to useNavigate
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://localhost:5000/login', { email, password })
+    axios.post('https://localhost:5000/login', { email, password })
       .then((response) => {
-        localStorage.setItem('token', response.data.token);
-        alert('Login successful!');
-        navigate('/dashboard');  // Redirect to dashboard on successful login
+        if (response.data.mfaRequired) {
+          // Navigate to MFA verification if required
+          navigate('/verify-mfa', { state: { userId: response.data.userId } });
+        } else {
+          localStorage.setItem('token', response.data.token);
+          alert('Login successful!');
+          navigate('/dashboard');  // Redirect to dashboard
+        }
       })
       .catch((error) => {
         setError('Invalid email or password');

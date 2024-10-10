@@ -8,7 +8,7 @@ function ProjectDetail() {
 
   useEffect(() => {
     // Fetch the project details from the backend
-    axios.get(`http://localhost:5000/project/${id}`)
+    axios.get(`https://localhost:5000/project/${id}`)
       .then((response) => {
         setProject(response.data);
       })
